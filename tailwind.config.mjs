@@ -10,6 +10,7 @@ export default {
         },
       },
       fontFamily: {
+        ploni: ['Ploni', 'Heebo', 'sans-serif'],
         heebo: ['Heebo', 'sans-serif'],
       },
     },
