@@ -1,0 +1,99 @@
+---
+import { homeImages } from '../data/homeImages.js';
+
+// Duplicate images so each column has enough to fill 2× its height for seamless loop
+function buildColumn(images: string[], offset: number): string[] {
+  // Rotate images by offset to vary the visual order per column
+  const rotated = [...images.slice(offset % images.length), ...images.slice(0, offset % images.length)];
+  // Triple the list so the column is always 3× the visible height
+  return [...rotated, ...rotated, ...rotated];
+}
+
+const columns = [
+  { direction: 'up',   duration: '90s',  images: buildColumn(homeImages, 0) },
+  { direction: 'down', duration: '115s', images: buildColumn(homeImages, 3) },
+  { direction: 'up',   duration: '75s',  images: buildColumn(homeImages, 6) },
+  { direction: 'down', duration: '105s', images: buildColumn(homeImages, 9) },
+  { direction: 'up',   duration: '125s', images: buildColumn(homeImages, 2) },
+];
+---
+
+<section
+  class="relative overflow-hidden"
+  style="height: 70vh; min-height: 400px;"
+  aria-label="גלריית תמונות מונפשת"
+>
+  <!-- Image grid -->
+  <div class="flex gap-2 h-full px-2">
+    {columns.map((col) => (
+      <div
+        class="wall-col flex-1 overflow-hidden"
+        style="min-width: 0;"
+      >
+        <div
+          class={`col-${col.direction} flex flex-col gap-2`}
+          style={`animation-duration: ${col.duration};`}
+        >
+          {col.images.map((src, i) => (
+            <div class="rounded-xl overflow-hidden flex-shrink-0">
+              <img
+                src={src}
+                alt="תמונה מתערוכת הסריגה"
+                class="w-full object-cover block"
+                style="height: 220px;"
+                loading={i < 6 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Top fade gradient -->
+  <div
+    class="absolute inset-x-0 top-0 pointer-events-none"
+    style="height: 60px; background: linear-gradient(to bottom, white, transparent);"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Bottom fade gradient -->
+  <div
+    class="absolute inset-x-0 bottom-0 pointer-events-none"
+    style="height: 60px; background: linear-gradient(to top, white, transparent);"
+    aria-hidden="true"
+  ></div>
+</section>
+
+<script>
+  const wall = document.querySelector('section[aria-label="גלריית תמונות מונפשת"]') as HTMLElement;
+  const strips = wall.querySelectorAll<HTMLElement>('.col-up, .col-down');
+
+  // Pause all strips when the wall is no longer visible (user scrolled past)
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      const state = entry.isIntersecting ? 'running' : 'paused';
+      strips.forEach(el => el.style.animationPlayState = state);
+    },
+    { threshold: 0 }
+  );
+
+  observer.observe(wall);
+</script>
+
+<!-- Mobile: hide columns 4 & 5 via CSS -->
+<style>
+  @media (max-width: 767px) {
+    .wall-col:nth-child(n+4) { display: none; }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .wall-col:nth-child(n+4) { display: none; }
+  }
+
+  @media (max-width: 767px) {
+    section[aria-label="גלריית תמונות מונפשת"] {
+      height: 60vh !important;
+    }
+  }
+</style>

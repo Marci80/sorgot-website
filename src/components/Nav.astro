@@ -1,0 +1,130 @@
+---
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { label: 'בית',            href: '/' },
+  { label: 'הרשמה',          href: '/register' },
+  { label: 'מדריכים קוליים', href: '/audio-guides' },
+  { label: 'גלריה 2023',     href: '/gallery/2023' },
+  { label: 'גלריה 2024',     href: '/gallery/2024' },
+  { label: 'גלריה 2025',     href: '/gallery/2025' },
+  { label: 'תרומה',          href: '/donate' },
+];
+
+function isActive(href: string) {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<header
+  id="site-nav"
+  class="fixed top-0 inset-x-0 z-50 bg-white transition-shadow duration-300"
+  role="banner"
+>
+  <nav
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+    aria-label="ניווט ראשי"
+  >
+    <!-- Site title (right side in RTL) -->
+    <a
+      href="/"
+      class="text-lg font-bold text-gray-900 hover:text-burgundy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-burgundy rounded"
+    >
+      תערוכת הסריגה השנתית
+    </a>
+
+    <!-- Desktop links (left side in RTL) -->
+    <ul class="hidden md:flex items-center gap-6 list-none m-0 p-0" role="list">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class={[
+              'text-sm font-medium transition-colors duration-200 pb-0.5 border-b-2',
+              isActive(link.href)
+                ? 'text-burgundy border-burgundy'
+                : 'text-gray-600 border-transparent hover:text-burgundy hover:border-burgundy',
+            ].join(' ')}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Mobile hamburger button -->
+    <button
+      id="menu-toggle"
+      class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-burgundy"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="פתח תפריט ניווט"
+    >
+      <span class="block w-6 h-0.5 bg-gray-700 transition-all duration-300" id="bar1"></span>
+      <span class="block w-6 h-0.5 bg-gray-700 transition-all duration-300" id="bar2"></span>
+      <span class="block w-6 h-0.5 bg-gray-700 transition-all duration-300" id="bar3"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile slide-down menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden border-t border-gray-100 bg-white"
+    role="navigation"
+    aria-label="תפריט ניווט נייד"
+  >
+    <ul class="flex flex-col py-2 list-none m-0 p-0" role="list">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class={[
+              'block px-6 py-3 text-sm font-medium transition-colors duration-200',
+              isActive(link.href)
+                ? 'text-burgundy bg-red-50'
+                : 'text-gray-700 hover:text-burgundy hover:bg-gray-50',
+            ].join(' ')}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<!-- Spacer so content isn't hidden under fixed nav -->
+<div class="h-16" aria-hidden="true"></div>
+
+<script>
+  // Shadow on scroll
+  const header = document.getElementById('site-nav')!;
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('shadow-sm', window.scrollY > 4);
+  }, { passive: true });
+
+  // Mobile menu toggle
+  const toggle = document.getElementById('menu-toggle')!;
+  const menu   = document.getElementById('mobile-menu')!;
+  const bar1   = document.getElementById('bar1')!;
+  const bar2   = document.getElementById('bar2')!;
+  const bar3   = document.getElementById('bar3')!;
+
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'סגור תפריט ניווט' : 'פתח תפריט ניווט');
+    if (open) {
+      bar1.style.transform = 'translateY(8px) rotate(45deg)';
+      bar2.style.opacity = '0';
+      bar3.style.transform = 'translateY(-8px) rotate(-45deg)';
+    } else {
+      bar1.style.transform = '';
+      bar2.style.opacity = '';
+      bar3.style.transform = '';
+    }
+  });
+</script>
