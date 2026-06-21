@@ -1,24 +1,30 @@
 ---
 import { homeImages } from '../data/homeImages.js';
 
-// Duplicate images so each column has enough to fill 2× its height for seamless loop
-function buildColumn(images: string[], offset: number): string[] {
-  // Rotate images by offset to vary the visual order per column
-  const rotated = [...images.slice(offset % images.length), ...images.slice(0, offset % images.length)];
-  // Triple the list so the column is always 3× the visible height
-  return [...rotated, ...rotated, ...rotated];
+// Split images evenly across 5 columns so no image repeats across columns.
+// Each column gets its own unique slice, then that slice is doubled for
+// the seamless infinite-scroll trick (the second copy is the "reset" half).
+const NUM_COLS = 5;
+
+function chunkForColumn(images: string[], colIndex: number, total: number): string[] {
+  const perCol = Math.ceil(images.length / total);
+  const start  = colIndex * perCol;
+  const slice  = images.slice(start, start + perCol);
+  // Double the slice so the CSS animation can loop seamlessly (translateY -50%)
+  return [...slice, ...slice];
 }
 
 const columns = [
-  { direction: 'up',   duration: '90s',  images: buildColumn(homeImages, 0) },
-  { direction: 'down', duration: '115s', images: buildColumn(homeImages, 3) },
-  { direction: 'up',   duration: '75s',  images: buildColumn(homeImages, 6) },
-  { direction: 'down', duration: '105s', images: buildColumn(homeImages, 9) },
-  { direction: 'up',   duration: '125s', images: buildColumn(homeImages, 2) },
+  { direction: 'up',   duration: '180s', images: chunkForColumn(homeImages, 0, NUM_COLS) },
+  { direction: 'down', duration: '220s', images: chunkForColumn(homeImages, 1, NUM_COLS) },
+  { direction: 'up',   duration: '160s', images: chunkForColumn(homeImages, 2, NUM_COLS) },
+  { direction: 'down', duration: '200s', images: chunkForColumn(homeImages, 3, NUM_COLS) },
+  { direction: 'up',   duration: '240s', images: chunkForColumn(homeImages, 4, NUM_COLS) },
 ];
 ---
 
 <section
+  id="image-wall"
   class="relative overflow-hidden"
   style="height: 70vh; min-height: 400px;"
   aria-label="גלריית תמונות מונפשת"
@@ -51,14 +57,14 @@ const columns = [
     ))}
   </div>
 
-  <!-- Top fade gradient -->
+  <!-- Top fade -->
   <div
     class="absolute inset-x-0 top-0 pointer-events-none"
     style="height: 60px; background: linear-gradient(to bottom, white, transparent);"
     aria-hidden="true"
   ></div>
 
-  <!-- Bottom fade gradient -->
+  <!-- Bottom fade -->
   <div
     class="absolute inset-x-0 bottom-0 pointer-events-none"
     style="height: 60px; background: linear-gradient(to top, white, transparent);"
@@ -67,33 +73,29 @@ const columns = [
 </section>
 
 <script>
-  const wall = document.querySelector('section[aria-label="גלריית תמונות מונפשת"]') as HTMLElement;
+  const wall   = document.getElementById('image-wall') as HTMLElement;
   const strips = wall.querySelectorAll<HTMLElement>('.col-up, .col-down');
 
-  // Pause all strips when the wall is no longer visible (user scrolled past)
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      const state = entry.isIntersecting ? 'running' : 'paused';
-      strips.forEach(el => el.style.animationPlayState = state);
-    },
-    { threshold: 0 }
-  );
+  // Stop permanently the moment the user scrolls — never resume.
+  let stopped = false;
 
-  observer.observe(wall);
+  function stopWall() {
+    if (stopped) return;
+    stopped = true;
+    strips.forEach(el => el.style.animationPlayState = 'paused');
+    window.removeEventListener('scroll', stopWall, { capture: true });
+  }
+
+  window.addEventListener('scroll', stopWall, { passive: true, capture: true });
 </script>
 
-<!-- Mobile: hide columns 4 & 5 via CSS -->
+<!-- Mobile: show only 2 columns; tablet: 3 columns -->
 <style>
   @media (max-width: 767px) {
-    .wall-col:nth-child(n+4) { display: none; }
+    .wall-col:nth-child(n+3) { display: none; }
+    #image-wall { height: 60vh !important; }
   }
   @media (min-width: 768px) and (max-width: 1023px) {
     .wall-col:nth-child(n+4) { display: none; }
-  }
-
-  @media (max-width: 767px) {
-    section[aria-label="גלריית תמונות מונפשת"] {
-      height: 60vh !important;
-    }
   }
 </style>
