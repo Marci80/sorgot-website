@@ -1,0 +1,55 @@
+---
+// Reusable audio player for MP3 guides served from public/audio/.
+//
+// Pass either a bare file name (resolved against public/audio/) or a full URL
+// via `src`. Any visible Hebrew text is passed in by the caller through props,
+// so Hebrew strings live in the page that uses this component, not here.
+//
+// Example (in a .astro page):
+//   import AudioPlayer from '../components/AudioPlayer.astro';
+//   <AudioPlayer src="track-01-intro.mp3" title="מבוא לתערוכה" />
+interface Props {
+  /** MP3 file name in public/audio/ (e.g. "track-01-intro.mp3") or a full URL. */
+  src: string;
+  /** Optional heading shown above the player (Hebrew). */
+  title?: string;
+  /** Optional explicit accessible label (Hebrew). Falls back to `title`. */
+  ariaLabel?: string;
+}
+
+const { src, title, ariaLabel } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+// Accept a bare filename or an absolute URL.
+const audioSrc = /^https?:\/\//.test(src) ? src : `${base}audio/${src}`;
+
+// Prefer an explicit label, then the title, then a neutral fallback.
+const label = ariaLabel ?? title ?? 'audio player';
+---
+
+<figure class="audio-player" dir="rtl">
+  {title && <figcaption class="audio-player__title">{title}</figcaption>}
+  <audio
+    controls
+    preload="none"
+    src={audioSrc}
+    aria-label={label}
+    class="audio-player__el"
+  ></audio>
+</figure>
+
+<style>
+  .audio-player {
+    margin: 0 0 1.5rem;
+    text-align: right; /* RTL alignment for the title and layout */
+  }
+  .audio-player__title {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  .audio-player__el {
+    width: 100%;
+    direction: ltr; /* native audio controls read left-to-right universally */
+  }
+</style>

@@ -3,6 +3,26 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
+const base = import.meta.env.BASE_URL;
+
+// Ploni font weights served from public/fonts/. Injected with the BASE_URL
+// prefix so the font files resolve under the GitHub Pages subpath.
+const fontFaces = [
+  ['ploni-ultralight-aaa', 100],
+  ['ploni-light-aaa', 300],
+  ['ploni-regular-aaa', 400],
+  ['ploni-medium-aaa', 500],
+  ['ploni-demibold-aaa', 600],
+  ['ploni-bold-aaa', 700],
+  ['ploni-ultrabold-aaa', 800],
+  ['ploni-black-aaa', 900],
+]
+  .map(
+    ([file, weight]) =>
+      `@font-face{font-family:'Ploni';src:url('${base}fonts/${file}.otf') format('opentype');font-weight:${weight};font-style:normal;font-display:swap;}`
+  )
+  .join('\n');
+
 interface Props {
   title?: string;
   description?: string;
@@ -22,11 +42,11 @@ const {
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    <!-- Favicon placeholder -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
 
-    <!-- Preconnect for Ploni font CDN -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <!-- Self-hosted Ploni font faces (BASE_URL-prefixed) -->
+    <style set:html={fontFaces}></style>
   </head>
   <body class="bg-white text-gray-800 font-ploni antialiased">
     <Nav />

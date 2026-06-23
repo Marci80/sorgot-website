@@ -1,69 +1,57 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="תרומה — תערוכת הסריגה השנתית">
 
-  <section class="px-4 py-20 max-w-2xl mx-auto text-center">
+  <section class="px-4 py-20 max-w-4xl mx-auto">
 
-    <!-- Heart frame top decoration -->
-    <div class="flex justify-center mb-6">
-      <img
-        src="/images/donate/heart-frame.png"
-        alt=""
-        aria-hidden="true"
-        class="w-full max-w-sm opacity-80"
-      />
+    <!-- Content row: text + side heart image -->
+    <div class="flex flex-col sm:flex-row-reverse items-center gap-8 mb-10">
+
+      <!-- Side heart image -->
+      <div class="flex-shrink-0">
+        <img
+          src={`${base}images/donate/heart.png`}
+          alt="לב אדום מסרוג"
+          class="w-48 sm:w-60 rounded-2xl shadow-md object-cover"
+        />
+      </div>
+
+      <!-- Text block -->
+      <div class="text-center sm:text-right flex-1">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 leading-snug">
+          התערוכה נוצרה באהבה - ללא מטרות רווח
+        </h1>
+
+        <div class="text-lg sm:text-xl text-gray-700 leading-relaxed space-y-3 mb-10">
+          <p>אם נהניתם מהיופי וקיבלתם השראה,</p>
+          <p>נשמח אם תבחרו לתרום להמשך הדרך,</p>
+          <p>תרומתכם תסייע לקיומה של התערוכה הבאה</p>
+          <p class="font-medium text-burgundy">כל סכום יתקבל באהבה והכרת תודה.</p>
+        </div>
+
+        <!-- Donate button -->
+        <a
+          href="https://www.jgive.com/new/he/ils/collect/donation-targets/152400/amount?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGnJqItEmhmQEG93_9kuLwOn2Hnqf6P_c6ki4t97teUNNWK6xhSm-m2DTOze1Q_aem_YWdncwAQJfvoy3ucI_OinJPnnktd&brid=YWdncwFJb8AmQq_1rGkbmR8-zwte"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-burgundy hover:bg-burgundy-dark text-white text-xl font-bold px-14 py-4 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy"
+        >
+          לתרומה
+        </a>
+      </div>
+
     </div>
 
-    <!-- Heart photo -->
-    <div class="flex justify-center mb-10">
-      <img
-        src="/images/donate/heart.jpg"
-        alt="לב אדום מסרוג על עץ"
-        class="rounded-2xl shadow-md w-56 sm:w-72 object-cover"
-      />
-    </div>
-
-    <!-- Title -->
-    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 leading-snug">
-      התערוכה נוצרה באהבה - ללא מטרות רווח
-    </h1>
-
-    <!-- Body text -->
-    <div class="text-lg sm:text-xl text-gray-700 leading-relaxed space-y-3 mb-10">
-      <p>אם נהניתם מהיופי וקיבלתם השראה,</p>
-      <p>נשמח אם תבחרו לתרום להמשך הדרך,</p>
-      <p>תרומתכם תסייע לקיומה של התערוכה הבאה</p>
-      <p class="font-medium text-burgundy">כל סכום יתקבל באהבה והכרת תודה.</p>
-    </div>
-
-    <!-- Donate button -->
-    <a
-      href="https://www.jgive.com/new/he/ils/collect/donation-targets/152400/amount?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGnJqItEmhmQEG93_9kuLwOn2Hnqf6P_c6ki4t97teUNNWK6xhSm-m2DTOze1Q_aem_YWdncwAQJfvoy3ucI_OinJPnnktd&brid=YWdncwFJb8AmQq_1rGkbmR8-zwte"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-block bg-burgundy hover:bg-burgundy-dark text-white text-xl font-bold px-14 py-4 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy"
-    >
-      לתרומה
-    </a>
-
-    <!-- Emek Hefer logo -->
+    <!-- Emek Hefer logo at the bottom -->
     <div class="flex justify-center mt-16 mb-4">
       <img
-        src="/images/donate/emek-hefer-logo.png"
+        src={`${base}images/donate/emek-hefer.png`}
         alt="קרן עמק חפר — The Emek Hefer Foundation"
         class="w-48 sm:w-64 opacity-90"
-      />
-    </div>
-
-    <!-- Bottom heart frame decoration -->
-    <div class="flex justify-center mt-4">
-      <img
-        src="/images/donate/heart-frame.png"
-        alt=""
-        aria-hidden="true"
-        class="w-full max-w-xs opacity-50 rotate-180"
       />
     </div>
 

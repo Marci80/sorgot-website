@@ -1,19 +1,23 @@
 ---
+const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
 
 const links = [
-  { label: 'בית',            href: '/' },
-  { label: 'הרשמה',          href: '/register' },
-  { label: 'מדריכים קוליים', href: '/audio-guides' },
-  { label: 'גלריה 2023',     href: '/gallery/2023' },
-  { label: 'גלריה 2024',     href: '/gallery/2024' },
-  { label: 'גלריה 2025',     href: '/gallery/2025' },
-  { label: 'תרומה',          href: '/donate' },
+  { label: 'בית',            href: '' },
+  { label: 'הרשמה',          href: 'register' },
+  { label: 'מדריכים קוליים', href: 'audio-guides' },
+  { label: 'גלריה 2023',     href: 'gallery/2023' },
+  { label: 'גלריה 2024',     href: 'gallery/2024' },
+  { label: 'גלריה 2025',     href: 'gallery/2025' },
+  { label: 'תרומה',          href: 'donate' },
 ];
 
 function isActive(href: string) {
-  if (href === '/') return currentPath === '/';
-  return currentPath.startsWith(href);
+  const strip = (p: string) => p.replace(/\/$/, '');
+  const target = strip(base + href);
+  const cur = strip(currentPath);
+  if (href === '') return cur === target;
+  return cur === target || cur.startsWith(target + '/');
 }
 ---
 
@@ -28,7 +32,7 @@ function isActive(href: string) {
   >
     <!-- Site title (right side in RTL) -->
     <a
-      href="/"
+      href={base}
       class="text-lg font-bold text-gray-900 hover:text-burgundy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-burgundy rounded"
     >
       תערוכת הסריגה השנתית
@@ -39,7 +43,7 @@ function isActive(href: string) {
       {links.map((link) => (
         <li>
           <a
-            href={link.href}
+            href={base + link.href}
             class={[
               'text-sm font-medium transition-colors duration-200 pb-0.5 border-b-2',
               isActive(link.href)
@@ -79,7 +83,7 @@ function isActive(href: string) {
       {links.map((link) => (
         <li>
           <a
-            href={link.href}
+            href={base + link.href}
             class={[
               'block px-6 py-3 text-sm font-medium transition-colors duration-200',
               isActive(link.href)

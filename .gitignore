@@ -1,3 +1,21 @@
-node_modules/
+# build output
 dist/
 .astro/
+
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.*
+
+# os / editor noise
+.DS_Store
+*.log
+npm-debug.log*
+
+# netlify (removed in Stage 9)
+.netlify/
+
+# redundant top-level fonts duplicate (the served copy lives in public/fonts/)
+/fonts/

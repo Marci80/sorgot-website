@@ -1,0 +1,3 @@
+# Keeps public/audio/ in git while empty.
+# Drop MP3 files here (ASCII, lowercase, hyphenated names, e.g. track-01-intro.mp3).
+# Reference them in pages via the AudioPlayer component, or as {BASE_URL}audio/<name>.mp3

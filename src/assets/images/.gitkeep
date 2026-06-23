@@ -1,0 +1,4 @@
+# Keeps src/assets/images/ in git while empty.
+# Put EDITORIAL images here and render them with Astro's <Image> component
+# (import { Image } from 'astro:assets') for automatic WebP + responsive sizes.
+# Static pass-through images (favicons, OG images) belong in public/images/ instead.

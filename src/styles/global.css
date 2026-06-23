@@ -2,27 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Ploni';
-  src: url('https://cdn.jsdelivr.net/gh/alefalefalef/ploni/fonts/woff2/PloniML-AAA.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Ploni';
-  src: url('https://cdn.jsdelivr.net/gh/alefalefalef/ploni/fonts/woff2/PloniMLDemi-AAA.woff2') format('woff2');
-  font-weight: 500 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Ploni';
-  src: url('https://cdn.jsdelivr.net/gh/alefalefalef/ploni/fonts/woff2/PloniMLBold-AAA.woff2') format('woff2');
-  font-weight: 700 900;
-  font-style: normal;
-  font-display: swap;
-}
+/*
+ * Ploni @font-face rules live in src/layouts/BaseLayout.astro, where the font
+ * URLs are prefixed with import.meta.env.BASE_URL so they resolve under the
+ * GitHub Pages subpath. Plain CSS cannot read import.meta.env, so they are
+ * injected from the layout instead of declared here.
+ */
 
 @layer base {
   html {
