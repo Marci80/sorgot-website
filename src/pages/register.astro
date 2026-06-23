@@ -3,8 +3,154 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="הרשמה — תערוכת הסריגה השנתית">
-  <section class="min-h-[60vh] flex flex-col items-center justify-center px-4 py-24 text-center">
-    <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">הרשמה</h1>
-    <p class="text-xl text-gray-400 font-medium">תוכן בקרוב</p>
+
+  <section class="px-4 py-20 max-w-xl mx-auto" dir="rtl" lang="he">
+
+    <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight text-right">
+      הרשמה
+    </h1>
+
+    <p class="text-lg sm:text-xl text-gray-700 leading-relaxed mb-10 text-right">
+      אם את סורגת באהבה ורוצה להצטרף אלינו, כתבי לנו ואנחנו ניצור קשר
+    </p>
+
+    <!--
+      FORMSPREE SETUP (one-time):
+      1. Go to https://formspree.io and sign up / log in.
+      2. Click "New Form", name it "הרשמה לתערוכת סורגות", set the email to sorgotburgata@gmail.com.
+      3. Copy the form ID (looks like "xpwrabcd") from the endpoint URL.
+      4. Replace REPLACE_WITH_FORM_ID below with that ID, e.g. action="https://formspree.io/f/xpwrabcd"
+    -->
+    <form
+      action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
+      method="POST"
+      class="space-y-6"
+    >
+      <!-- Hidden fields for Formspree -->
+      <input type="hidden" name="_subject" value="הרשמה חדשה לתערוכת סורגות" />
+      <input type="hidden" name="_language" value="he" />
+      <input type="hidden" name="_next" value="https://marci80.github.io/sorgot-website/thank-you" />
+
+      <!-- שם מלא -->
+      <div class="flex flex-col gap-1.5">
+        <label for="name" class="text-sm font-medium text-gray-700">שם מלא</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="שם מלא"
+          class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- מספר טלפון -->
+      <div class="flex flex-col gap-1.5">
+        <label for="phone" class="text-sm font-medium text-gray-700">מספר טלפון</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="050-0000000"
+          dir="ltr"
+          class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- כתובת מייל -->
+      <div class="flex flex-col gap-1.5">
+        <label for="email" class="text-sm font-medium text-gray-700">כתובת מייל</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@email.com"
+          dir="ltr"
+          class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- יישוב -->
+      <div class="flex flex-col gap-1.5">
+        <label for="city" class="text-sm font-medium text-gray-700">יישוב</label>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          placeholder="שם הישוב"
+          class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition"
+        />
+      </div>
+
+      <!-- הערות -->
+      <div class="flex flex-col gap-1.5">
+        <label for="notes" class="text-sm font-medium text-gray-700">הערות</label>
+        <textarea
+          id="notes"
+          name="notes"
+          rows="5"
+          placeholder="ספרי לנו קצת על עצמך..."
+          class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Submit -->
+      <div class="pt-2">
+        <button
+          type="submit"
+          class="w-full sm:w-auto bg-burgundy hover:bg-burgundy-dark text-white text-lg font-bold px-14 py-4 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy"
+        >
+          הצטרפות
+        </button>
+      </div>
+
+    </form>
+
+    <!--
+      NETLIFY FORMS VERSION (uncomment if migrating to Netlify):
+
+      <form
+        name="registration"
+        method="POST"
+        data-netlify="true"
+        class="space-y-6"
+      >
+        <input type="hidden" name="form-name" value="registration" />
+        <input type="hidden" name="_subject" value="הרשמה חדשה לתערוכת סורגות" />
+
+        <div class="flex flex-col gap-1.5">
+          <label for="name" class="text-sm font-medium text-gray-700">שם מלא</label>
+          <input type="text" id="name" name="name" placeholder="שם מלא"
+            class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="phone" class="text-sm font-medium text-gray-700">מספר טלפון</label>
+          <input type="tel" id="phone" name="phone" placeholder="050-0000000" dir="ltr"
+            class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="email" class="text-sm font-medium text-gray-700">כתובת מייל</label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" dir="ltr"
+            class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="city" class="text-sm font-medium text-gray-700">יישוב</label>
+          <input type="text" id="city" name="city" placeholder="שם הישוב"
+            class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="notes" class="text-sm font-medium text-gray-700">הערות</label>
+          <textarea id="notes" name="notes" rows="5" placeholder="ספרי לנו קצת על עצמך..."
+            class="w-full border border-gray-300 rounded-xl px-4 py-3 text-right text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-burgundy focus:border-transparent transition resize-none"></textarea>
+        </div>
+        <div class="pt-2">
+          <button type="submit"
+            class="w-full sm:w-auto bg-burgundy hover:bg-burgundy-dark text-white text-lg font-bold px-14 py-4 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy">
+            הצטרפות
+          </button>
+        </div>
+      </form>
+    -->
+
   </section>
+
 </BaseLayout>
