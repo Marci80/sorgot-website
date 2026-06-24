@@ -11,8 +11,13 @@
 
 @layer base {
   html {
-    font-family: 'Ploni', 'Heebo', sans-serif;
+    font-family: 'Rubik', 'Ploni', 'Heebo', sans-serif;
     scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bamberger', serif;
+    color: #bc404a;
   }
 
   :focus-visible {

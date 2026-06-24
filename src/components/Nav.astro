@@ -3,13 +3,9 @@ const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
 
 const links = [
-  { label: 'בית',            href: '' },
-  { label: 'הרשמה',          href: 'register' },
-  { label: 'מדריכים קוליים', href: 'audio-guides' },
-  { label: 'גלריה 2023',     href: 'gallery/2023' },
-  { label: 'גלריה 2024',     href: 'gallery/2024' },
-  { label: 'גלריה 2025',     href: 'gallery/2025' },
-  { label: 'תרומה',          href: 'donate' },
+  { label: 'בית',    href: '' },
+  { label: 'הרשמה', href: 'register' },
+  { label: 'תרומה', href: 'donate' },
 ];
 
 function isActive(href: string) {

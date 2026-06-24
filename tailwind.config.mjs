@@ -12,6 +12,8 @@ export default {
       fontFamily: {
         ploni: ['Ploni', 'Heebo', 'sans-serif'],
         heebo: ['Heebo', 'sans-serif'],
+        rubik: ['Rubik', 'sans-serif'],
+        bamberger: ['Bamberger', 'serif'],
       },
     },
   },
