@@ -1,0 +1,94 @@
+---
+interface Props {
+  ids: string[];
+  year: string;
+}
+
+const { ids, year } = Astro.props;
+
+const CDN = 'https://res.cloudinary.com/gmhtrfql/image/upload/f_auto,q_auto';
+
+function src(id: string, w: number) {
+  return `${CDN},w_${w},c_fill/${id}`;
+}
+
+function srcset(id: string) {
+  return `${src(id, 400)} 400w, ${src(id, 800)} 800w, ${src(id, 1200)} 1200w`;
+}
+---
+
+<!-- Photo grid -->
+<ul
+  class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"
+  role="list"
+  aria-label={`תמונות גלריה ${year}`}
+>
+  {ids.map((id, i) => (
+    <li>
+      <button
+        class="w-full aspect-square overflow-hidden rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-burgundy group"
+        data-lightbox-src={src(id, 1200)}
+        data-lightbox-alt={`תמונה ${i + 1} מגלריה ${year}`}
+        aria-label={`הגדל תמונה ${i + 1}`}
+      >
+        <img
+          src={src(id, 400)}
+          srcset={srcset(id)}
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+          alt={`תמונה ${i + 1} מגלריה ${year}`}
+          loading="lazy"
+          decoding="async"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </button>
+    </li>
+  ))}
+</ul>
+
+<!-- Lightbox dialog -->
+<dialog
+  id="lightbox"
+  class="fixed inset-0 z-50 w-full h-full max-w-none max-h-none m-0 p-0 bg-transparent backdrop:bg-black/80"
+  aria-modal="true"
+  aria-label="תמונה מוגדלת"
+>
+  <div class="flex items-center justify-center w-full h-full p-4">
+    <button
+      id="lightbox-close"
+      class="absolute top-4 left-4 text-white text-3xl leading-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+      aria-label="סגור"
+    >
+      ✕
+    </button>
+    <img
+      id="lightbox-img"
+      src=""
+      alt=""
+      class="max-w-full max-h-full rounded-lg shadow-2xl object-contain"
+    />
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement;
+  const img    = document.getElementById('lightbox-img') as HTMLImageElement;
+  const close  = document.getElementById('lightbox-close')!;
+
+  document.querySelectorAll<HTMLButtonElement>('[data-lightbox-src]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      img.src = btn.dataset.lightboxSrc!;
+      img.alt = btn.dataset.lightboxAlt!;
+      dialog.showModal();
+    });
+  });
+
+  close.addEventListener('click', () => dialog.close());
+
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') dialog.close();
+  });
+</script>
