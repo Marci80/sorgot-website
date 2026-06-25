@@ -74,21 +74,33 @@ function srcset(id: string) {
   const img    = document.getElementById('lightbox-img') as HTMLImageElement;
   const close  = document.getElementById('lightbox-close')!;
 
+  function openLightbox(src: string, alt: string) {
+    img.src = '';
+    img.alt = '';
+    img.src = src;
+    img.alt = alt;
+    dialog.showModal();
+  }
+
+  function closeLightbox() {
+    dialog.close();
+    img.src = '';
+    img.alt = '';
+  }
+
   document.querySelectorAll<HTMLButtonElement>('[data-lightbox-src]').forEach(btn => {
     btn.addEventListener('click', () => {
-      img.src = btn.dataset.lightboxSrc!;
-      img.alt = btn.dataset.lightboxAlt!;
-      dialog.showModal();
+      openLightbox(btn.dataset.lightboxSrc!, btn.dataset.lightboxAlt!);
     });
   });
 
-  close.addEventListener('click', () => dialog.close());
+  close.addEventListener('click', closeLightbox);
 
   dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) dialog.close();
+    if (e.target === dialog) closeLightbox();
   });
 
   dialog.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') dialog.close();
+    if (e.key === 'Escape') closeLightbox();
   });
 </script>
