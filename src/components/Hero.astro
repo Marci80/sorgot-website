@@ -13,12 +13,12 @@ const paragraphs = [
 <section class="py-24 md:py-32 px-4 sm:px-6" aria-labelledby="hero-heading">
   <div class="max-w-2xl mx-auto text-center">
 
-    <h1
+    <img
       id="hero-heading"
-      class="text-4xl sm:text-5xl font-bold text-burgundy mb-8 leading-tight font-abraham"
-    >
-      {heading}
-    </h1>
+      src={`${import.meta.env.BASE_URL}images/headline.png`}
+      alt={heading}
+      class="mx-auto mb-8 w-full max-w-lg"
+    />
 
     <div class="space-y-5 text-xl text-gray-600 leading-relaxed">
       {paragraphs.map((p) => (
