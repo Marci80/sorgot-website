@@ -15,11 +15,11 @@ function chunkForColumn(images: string[], colIndex: number, total: number): stri
 }
 
 const columns = [
-  { direction: 'up',   duration: '180s', images: chunkForColumn(homeImages, 0, NUM_COLS) },
-  { direction: 'down', duration: '220s', images: chunkForColumn(homeImages, 1, NUM_COLS) },
-  { direction: 'up',   duration: '160s', images: chunkForColumn(homeImages, 2, NUM_COLS) },
-  { direction: 'down', duration: '200s', images: chunkForColumn(homeImages, 3, NUM_COLS) },
-  { direction: 'up',   duration: '240s', images: chunkForColumn(homeImages, 4, NUM_COLS) },
+  { direction: 'up',   duration: '45s', images: chunkForColumn(homeImages, 0, NUM_COLS) },
+  { direction: 'down', duration: '55s', images: chunkForColumn(homeImages, 1, NUM_COLS) },
+  { direction: 'up',   duration: '40s', images: chunkForColumn(homeImages, 2, NUM_COLS) },
+  { direction: 'down', duration: '50s', images: chunkForColumn(homeImages, 3, NUM_COLS) },
+  { direction: 'up',   duration: '60s', images: chunkForColumn(homeImages, 4, NUM_COLS) },
 ];
 ---
 
@@ -81,23 +81,6 @@ const columns = [
 <p class="text-center text-xs text-gray-400 mt-2 mb-0 px-4">
   קרדיט תמונות: תמי בר שי ויפית צרפתי. צילומי רחפן: עידו בר שי
 </p>
-
-<script>
-  const wall   = document.getElementById('image-wall') as HTMLElement;
-  const strips = wall.querySelectorAll<HTMLElement>('.col-up, .col-down');
-
-  // Stop permanently the moment the user scrolls — never resume.
-  let stopped = false;
-
-  function stopWall() {
-    if (stopped) return;
-    stopped = true;
-    strips.forEach(el => el.style.animationPlayState = 'paused');
-    window.removeEventListener('scroll', stopWall, { capture: true });
-  }
-
-  window.addEventListener('scroll', stopWall, { passive: true, capture: true });
-</script>
 
 <!-- Mobile: show only 2 columns; tablet: 3 columns -->
 <style>
