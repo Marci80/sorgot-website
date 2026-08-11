@@ -1,10 +1,82 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Audio files are hosted on Cloudinary (same account as the gallery photos),
+// not stored in the repo, so the repo stays light as the guide library grows.
+const CDN = 'https://res.cloudinary.com/gmhtrfql/video/upload/f_auto,q_auto';
+
+const guides = [
+  { title: 'קיץ ישראלי', publicId: 'audio/israeli-summer' },
+  { title: 'לו יהי', publicId: 'audio/lu-yehi' },
+];
 ---
 
 <BaseLayout title="מדריכים קוליים — תערוכת הסריגה השנתית">
-  <section class="min-h-[60vh] flex flex-col items-center justify-center px-4 py-24 text-center">
-    <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">מדריכים קוליים</h1>
-    <p class="text-xl text-gray-400 font-medium">תוכן בקרוב</p>
+  <section class="min-h-[60vh] flex flex-col items-center px-4 py-24">
+    <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-12 text-center">מדריכים קוליים</h1>
+
+    <div class="w-full max-w-md flex flex-col gap-4">
+      {guides.map((guide) => (
+        <div class="flex items-center justify-between gap-4 bg-white border border-gray-200 rounded-2xl shadow-md px-6 py-5">
+          <span class="text-lg font-medium text-gray-900">{guide.title}</span>
+          <button
+            type="button"
+            class="audio-toggle shrink-0 flex items-center justify-center w-14 h-14 rounded-full bg-burgundy hover:bg-burgundy-dark text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy"
+            data-src={`${CDN}/${guide.publicId}`}
+            aria-label={`הפעל את ${guide.title}`}
+          >
+            <svg class="play-icon w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+            <svg class="pause-icon w-6 h-6 hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
+            </svg>
+          </button>
+        </div>
+      ))}
+    </div>
   </section>
 </BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.audio-toggle');
+  let currentAudio: HTMLAudioElement | null = null;
+  let currentButton: HTMLButtonElement | null = null;
+
+  function setPlaying(button: HTMLButtonElement, playing: boolean) {
+    button.querySelector('.play-icon')!.classList.toggle('hidden', playing);
+    button.querySelector('.pause-icon')!.classList.toggle('hidden', !playing);
+    const title = button.getAttribute('data-title') ?? '';
+    button.setAttribute('aria-label', playing ? `עצור את ${title}` : `הפעל את ${title}`);
+  }
+
+  buttons.forEach((button) => {
+    const label = button.getAttribute('aria-label') ?? '';
+    button.setAttribute('data-title', label.replace(/^הפעל את /, ''));
+
+    const audio = new Audio(button.dataset.src);
+    audio.preload = 'none';
+
+    audio.addEventListener('ended', () => setPlaying(button, false));
+
+    button.addEventListener('click', () => {
+      if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentButton) setPlaying(currentButton, false);
+      }
+
+      if (audio.paused) {
+        audio.play();
+        setPlaying(button, true);
+        currentAudio = audio;
+        currentButton = button;
+      } else {
+        audio.pause();
+        setPlaying(button, false);
+        currentAudio = null;
+        currentButton = null;
+      }
+    });
+  });
+</script>
