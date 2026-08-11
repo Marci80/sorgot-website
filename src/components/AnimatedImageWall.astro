@@ -1,6 +1,8 @@
 ---
 import { homeImages } from '../data/homeImages.js';
 
+const base = import.meta.env.BASE_URL;
+
 // Split images evenly across 5 columns so no image repeats across columns.
 // Each column gets its own unique slice, then that slice is doubled for
 // the seamless infinite-scroll trick (the second copy is the "reset" half).
@@ -23,11 +25,16 @@ const columns = [
 ];
 ---
 
+<a
+  href={`${base}gallery`}
+  class="block"
+  aria-label="מעבר לגלריה"
+>
 <section
   id="image-wall"
   class="relative overflow-hidden"
   style="height: 70vh; min-height: 400px;"
-  aria-label="גלריית תמונות מונפשת"
+  aria-hidden="true"
 >
   <!-- Image grid -->
   <div class="flex gap-2 h-full px-2">
@@ -77,6 +84,7 @@ const columns = [
     aria-hidden="true"
   ></div>
 </section>
+</a>
 
 <p class="text-center text-xs text-gray-400 mt-2 mb-0 px-4">
   קרדיט תמונות: תמי בר שי ויפית צרפתי. צילומי רחפן: עידו בר שי
