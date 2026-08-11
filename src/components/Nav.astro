@@ -1,14 +1,8 @@
 ---
+import { navLinks as links } from '../data/navLinks.js';
+
 const base = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
-
-const links = [
-  { label: 'בית',            href: '' },
-  { label: 'גלריה',          href: 'gallery' },
-  { label: 'מדריכים קוליים', href: 'audio-guides' },
-  { label: 'הצטרפות',        href: 'register' },
-  { label: 'תרומה',          href: 'donate' },
-];
 
 function isActive(href: string) {
   const strip = (p: string) => p.replace(/\/$/, '');
@@ -56,10 +50,10 @@ function isActive(href: string) {
       ))}
     </ul>
 
-    <!-- Mobile hamburger button -->
+    <!-- Mobile hamburger button (right side, matching RTL reading order) -->
     <button
       id="menu-toggle"
-      class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-burgundy"
+      class="order-first md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-burgundy"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="פתח תפריט ניווט"
