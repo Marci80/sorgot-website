@@ -19,3 +19,9 @@ npm-debug.log*
 
 # redundant top-level fonts duplicate (the served copy lives in public/fonts/)
 /fonts/
+
+# audio guide source files (hosted on Cloudinary, not served from the repo)
+/public/audio/
+
+# local Claude Code tooling config
+/.claude/
