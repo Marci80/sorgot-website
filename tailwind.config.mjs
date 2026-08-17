@@ -10,7 +10,6 @@ export default {
         },
       },
       fontFamily: {
-        ploni: ['Ploni', 'Heebo', 'sans-serif'],
         heebo: ['Heebo', 'sans-serif'],
         abraham: ['Abraham', 'serif'],
         fbtipograf: ['FbTipograf', 'sans-serif'],

@@ -22,3 +22,6 @@ npm-debug.log*
 
 # audio guide source files (hosted on Cloudinary, not served from the repo)
 /public/audio/
+
+# local Claude Code tooling config
+/.claude/
