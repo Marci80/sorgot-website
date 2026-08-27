@@ -131,9 +131,37 @@ p{margin:0 0 14px}
 .thanks{text-align:center;font-size:22px;font-family:'Tipograf',Arial,sans-serif;margin:18px 0}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- site nav (the game lives inside the site) ---- */
+.site-nav{
+  margin:0 -18px 14px;padding:9px 18px;background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 14px
+}
+.site-nav a{text-decoration:none}
+.site-nav .brand{
+  font-family:'Tipograf',-apple-system,Arial,sans-serif;
+  font-size:16px;font-weight:700;color:var(--ink);white-space:nowrap
+}
+.site-nav .links{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:center}
+.site-nav .links a{font-size:14px;color:var(--soft);padding:3px 0;white-space:nowrap}
+.site-nav .links a:hover{color:var(--accent)}
+.site-nav .links a[aria-current="page"]{color:var(--accent);font-weight:700}
 </style>
 </head>
 <body>
+
+<nav class="site-nav" aria-label="ניווט האתר">
+  <a class="brand" href="/sorgot-website/">תערוכת הסריגה השנתית</a>
+  <div class="links">
+    <a href="/sorgot-website/">בית</a>
+    <a href="/sorgot-website/gallery">גלריה</a>
+    <a href="/sorgot-website/audio-guides">מדריכים קוליים</a>
+    <a href="/sorgot-website/register">הצטרפות</a>
+    <a href="/sorgot-website/donate">תרומה</a>
+    <a href="/sorgot-website/game/" aria-current="page">משחק</a>
+  </div>
+</nav>
 
 <!-- ============ HOME ============ -->
 <section class="screen on" id="s0">
