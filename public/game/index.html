@@ -147,6 +147,40 @@ p{margin:0 0 14px}
 .site-nav .links a{font-size:14px;color:var(--soft);padding:3px 0;white-space:nowrap}
 .site-nav .links a:hover{color:var(--accent)}
 .site-nav .links a[aria-current="page"]{color:var(--accent);font-weight:700}
+
+/* hamburger toggle (shown on small screens) */
+.nav-toggle{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:44px;height:44px;padding:10px;border:0;background:none;cursor:pointer
+}
+.nav-toggle span{display:block;height:2px;width:100%;background:var(--ink);border-radius:2px}
+
+/* slide-in drawer + backdrop */
+.nav-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);
+  opacity:0;visibility:hidden;transition:opacity .25s ease;z-index:60
+}
+.nav-drawer{
+  position:fixed;top:0;right:0;bottom:0;width:78%;max-width:300px;background:#fff;
+  transform:translateX(100%);transition:transform .28s ease;z-index:61;
+  padding:18px calc(18px + env(safe-area-inset-right)) 18px 18px;
+  display:flex;flex-direction:column;gap:2px;
+  box-shadow:-8px 0 24px rgba(0,0,0,.14)
+}
+.nav-drawer .drawer-close{
+  align-self:flex-start;font-size:28px;line-height:1;border:0;background:none;
+  color:var(--soft);cursor:pointer;padding:2px 8px;margin-bottom:8px
+}
+.nav-drawer a{font-size:18px;color:var(--ink);padding:12px 8px;border-radius:12px}
+.nav-drawer a:hover{background:var(--wash)}
+.nav-drawer a[aria-current="page"]{color:var(--accent);font-weight:700}
+body.nav-open .nav-backdrop{opacity:1;visibility:visible}
+body.nav-open .nav-drawer{transform:translateX(0)}
+
+@media (max-width:600px){
+  .site-nav .links{display:none}
+  .nav-toggle{display:flex}
+}
 </style>
 </head>
 <body>
@@ -161,7 +195,40 @@ p{margin:0 0 14px}
     <a href="/sorgot-website/donate">תרומה</a>
     <a href="/sorgot-website/game/" aria-current="page">משחק</a>
   </div>
+  <button class="nav-toggle" id="navToggle" type="button"
+          aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="navDrawer">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="nav-backdrop" id="navBackdrop"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="תפריט ניווט">
+  <button class="drawer-close" id="navClose" type="button" aria-label="סגירת תפריט">&times;</button>
+  <a href="/sorgot-website/">בית</a>
+  <a href="/sorgot-website/gallery">גלריה</a>
+  <a href="/sorgot-website/audio-guides">מדריכים קוליים</a>
+  <a href="/sorgot-website/register">הצטרפות</a>
+  <a href="/sorgot-website/donate">תרומה</a>
+  <a href="/sorgot-website/game/" aria-current="page">משחק</a>
+</aside>
+
+<script>
+(function(){
+  var b=document.body,
+      t=document.getElementById('navToggle'),
+      bd=document.getElementById('navBackdrop'),
+      c=document.getElementById('navClose');
+  function set(open){
+    b.classList.toggle('nav-open',open);
+    t.setAttribute('aria-expanded',String(open));
+    t.setAttribute('aria-label',open?'סגירת תפריט':'פתיחת תפריט');
+  }
+  t.addEventListener('click',function(){ set(!b.classList.contains('nav-open')); });
+  c.addEventListener('click',function(){ set(false); });
+  bd.addEventListener('click',function(){ set(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+})();
+</script>
 
 <!-- ============ HOME ============ -->
 <section class="screen on" id="s0">
@@ -178,7 +245,8 @@ p{margin:0 0 14px}
   <button class="back" data-home>חזרה לעמוד הבית</button>
   <p class="eyebrow">פעילות 1 מתוך 6</p>
   <h2>☀️ "אם יש לך שמש"</h2>
-  <p>מצאו את הבאנר בחורשה והביטו בו היטב. סמנו כל דבר מהשיר שמופיע גם בבאנר. <strong>שימו לב: יש 6 תשובות נכונות ושתי תשובות לא נכונות. אחרי שמצאתם 6, לחצו על "בודקים את התשובה".</strong></p>
+  <p>מצאו את הבאנר בחורשה והביטו בו היטב. סמנו כל דבר מהשיר שמופיע גם בבאנר.</p>
+  <p><strong>שימו לב: יש 6 תשובות נכונות ושתי תשובות לא נכונות. אחרי שמצאתם 6, לחצו על "בודקים את התשובה".</strong></p>
   <div class="chips" id="q1"></div>
   <button class="btn" data-check="1">בודקים את התשובה</button>
   <div class="note" id="n1"></div>
@@ -309,7 +377,8 @@ p{margin:0 0 14px}
   <button class="back" data-home>חזרה לעמוד הבית</button>
   <p class="eyebrow">פעילות 5 מתוך 6</p>
   <h2>🔎 בעלי חיים בתערוכה</h2>
-  <p>חפשו את בעלי החיים שמסתתרים בתערוכה שלנו. <strong>שימו לב: יש 11 תשובות נכונות ושלוש תשובות לא נכונות. אחרי שמצאתם 11, לחצו על "בודקים את התשובה".</strong></p>
+  <p>חפשו את בעלי החיים שמסתתרים בתערוכה שלנו.</p>
+  <p><strong>שימו לב: יש 11 תשובות נכונות ושלוש תשובות לא נכונות. אחרי שמצאתם 11, לחצו על "בודקים את התשובה".</strong></p>
   <div class="chips" id="q5"></div>
   <button class="btn" data-check="5">בודקים את התשובה</button>
   <div class="note" id="n5"></div>
