@@ -136,21 +136,13 @@ p{margin:0 0 14px}
 .site-nav{
   margin:0 -18px 14px;padding:9px 18px;background:#fff;
   border-bottom:1px solid var(--line);
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 14px
+  display:flex;align-items:center;justify-content:flex-start
 }
 .site-nav a{text-decoration:none}
-.site-nav .brand{
-  font-family:'Tipograf',-apple-system,Arial,sans-serif;
-  font-size:16px;font-weight:700;color:var(--ink);white-space:nowrap
-}
-.site-nav .links{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:center}
-.site-nav .links a{font-size:14px;color:var(--soft);padding:3px 0;white-space:nowrap}
-.site-nav .links a:hover{color:var(--accent)}
-.site-nav .links a[aria-current="page"]{color:var(--accent);font-weight:700}
 
-/* hamburger toggle (shown on small screens) */
+/* hamburger toggle (top-right menu) */
 .nav-toggle{
-  display:none;flex-direction:column;justify-content:center;gap:5px;
+  display:flex;flex-direction:column;justify-content:center;gap:5px;
   width:44px;height:44px;padding:10px;border:0;background:none;cursor:pointer
 }
 .nav-toggle span{display:block;height:2px;width:100%;background:var(--ink);border-radius:2px}
@@ -176,25 +168,11 @@ p{margin:0 0 14px}
 .nav-drawer a[aria-current="page"]{color:var(--accent);font-weight:700}
 body.nav-open .nav-backdrop{opacity:1;visibility:visible}
 body.nav-open .nav-drawer{transform:translateX(0)}
-
-@media (max-width:600px){
-  .site-nav .links{display:none}
-  .nav-toggle{display:flex}
-}
 </style>
 </head>
 <body>
 
 <nav class="site-nav" aria-label="ניווט האתר">
-  <a class="brand" href="/sorgot-website/">תערוכת הסריגה השנתית</a>
-  <div class="links">
-    <a href="/sorgot-website/">בית</a>
-    <a href="/sorgot-website/gallery">גלריה</a>
-    <a href="/sorgot-website/audio-guides">מדריכים קוליים</a>
-    <a href="/sorgot-website/register">הצטרפות</a>
-    <a href="/sorgot-website/donate">תרומה</a>
-    <a href="/sorgot-website/game/" aria-current="page">משחק</a>
-  </div>
   <button class="nav-toggle" id="navToggle" type="button"
           aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="navDrawer">
     <span></span><span></span><span></span>
