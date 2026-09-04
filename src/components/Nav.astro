@@ -19,17 +19,9 @@ function isActive(href: string) {
   role="banner"
 >
   <nav
-    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between md:justify-end h-16"
     aria-label="ניווט ראשי"
   >
-    <!-- Site title (right side in RTL) -->
-    <a
-      href={base}
-      class="text-lg font-bold text-gray-900 hover:text-burgundy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-burgundy rounded"
-    >
-      תערוכת הסריגה השנתית
-    </a>
-
     <!-- Desktop links (left side in RTL) -->
     <ul class="hidden md:flex items-center gap-6 list-none m-0 p-0" role="list">
       {links.map((link) => (
