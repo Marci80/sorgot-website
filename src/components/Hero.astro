@@ -8,6 +8,14 @@ const paragraphs = [
   'המיצגים המרשימים בתערוכה נסרגו באהבה על ידי עשרות נשים מעמק חפר ומרחבי הארץ, במלאכת יד מוקפדת.',
   'היצירה מסמלת את הכוח שבשיתופי פעולה, את החיבוק הקהילתי, ואת התקווה לסרוג יחד עתיד טוב ומואר יותר.',
 ];
+
+// Partners with a logo on file (public/logos). משפחת שחורי has no logo — text only.
+const partners = [
+  { name: 'מועצה אזורית עמק חפר', file: 'emek-hefer.jpg' },
+  { name: 'קרן עמק חפר', file: 'keren-emek-hefer.png' },
+  { name: 'המרכז הקהילתי עמק חפר', file: 'merkaz-kehilati.png' },
+  { name: 'ועדי מושב בורגתה (מוניציפלי ואגודה)', file: 'burgata.png' },
+];
 ---
 
 <section class="py-24 md:py-32 px-4 sm:px-6" aria-labelledby="hero-heading">
@@ -37,6 +45,25 @@ const paragraphs = [
       >
         להצטרפות לקבוצה
       </a>
+    </div>
+
+    <!-- Thanks to partners -->
+    <div class="mt-20 pt-12 border-t border-gray-200">
+      <p class="text-xl font-bold text-gray-800 mb-3">
+        תודה לכל השותפים שאפשרו את קיומה של התערוכה:
+      </p>
+      <p class="text-xl text-gray-600 leading-relaxed mb-10">
+        משפחת שחורי, מועצה אזורית עמק חפר, קרן עמק חפר, המרכז הקהילתי עמק חפר, ועדי מושב בורגתה (מוניציפלי ואגודה)
+      </p>
+      <div class="flex flex-wrap justify-center items-center gap-10">
+        {partners.map((p) => (
+          <img
+            src={`${import.meta.env.BASE_URL}logos/${p.file}`}
+            alt={p.name}
+            class="h-16 md:h-20 w-auto object-contain"
+          />
+        ))}
+      </div>
     </div>
 
   </div>

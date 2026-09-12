@@ -447,11 +447,13 @@ function bump(){
 readCount();
 
 /* ---------- collective points ----------
-   Shows a shared "points earned at the exhibition" total, +100 per finisher.
+   Shows a shared "points earned at the exhibition" total: +10 the first time
+   a visitor opens each activity, +100 more for visitors who finish all six.
 
-   POINTS_REMOTE=true   -> exact finisher tally via the Supabase functions
-                           get_points() / add_points() (create them with the
-                           SQL at the bottom of this file).
+   POINTS_REMOTE=true   -> exact tally via the Supabase functions
+                           get_points() / add_points() / add_activity_points()
+                           (create them with the SQL at the bottom of this
+                           file).
    POINTS_REMOTE=false  -> the number is derived as (players × 100).
    Either way, if the functions are missing the code falls back to
    (players × 100), so the counter always shows something sensible.          */
@@ -477,6 +479,19 @@ function addPoints(){
   if(pointsAdded) return; pointsAdded = true;
   if(!POINTS_REMOTE || !COUNTER.url){ return; }
   rpc('add_points')
+    .then(function(v){ if(v && v.code){ readPoints(); } else { paintPoints(v); } })
+    .catch(readPoints);
+}
+
+/* +10 the first time a visitor opens each activity (once per activity per
+   visit — reopening the same activity doesn't add more), via the Supabase
+   function add_activity_points() (create it with the SQL at the bottom of
+   this file). */
+var activityPointsAdded = {};
+function addActivityPoints(n){
+  if(activityPointsAdded[n]) return; activityPointsAdded[n] = true;
+  if(!POINTS_REMOTE || !COUNTER.url){ return; }
+  rpc('add_activity_points')
     .then(function(v){ if(v && v.code){ readPoints(); } else { paintPoints(v); } })
     .catch(readPoints);
 }
@@ -657,7 +672,7 @@ function show(id){
   document.getElementById(id).classList.add('on');
   window.scrollTo(0,0);
 }
-function go(n){ bump(); show('s'+n); }
+function go(n){ bump(); addActivityPoints(n); show('s'+n); }
 
 /* ---------- game-complete pop-up ---------- */
 var finished=false;
@@ -685,12 +700,12 @@ mark();
   "points earned at the exhibition" counter — REQUIRED SETUP
   ============================================================================
   The script above has POINTS_REMOTE = true, so it calls get_points() /
-  add_points() on Supabase. Until the two functions below exist it falls
-  back to showing (players who played × 100).
+  add_points() / add_activity_points() on Supabase. Until the functions below
+  exist, points fall back to showing (players who played × 100).
 
   Run this once in the Supabase SQL editor (same project as the players
-  counter) to turn the counter into an exact tally that grows by 100 for
-  every visitor who FINISHES all six activities:
+  counter). The tally grows by 10 the first time a visitor opens each of the
+  six activities, plus 100 more for visitors who finish all six:
 
     create table if not exists public.game_points (
       id int primary key default 1,
@@ -710,8 +725,15 @@ mark();
       returning total;
     $$;
 
-    grant execute on function public.get_points()  to anon, authenticated;
-    grant execute on function public.add_points()  to anon, authenticated;
+    create or replace function public.add_activity_points()
+    returns bigint language sql security definer set search_path = public as $$
+      update public.game_points set total = total + 10 where id = 1
+      returning total;
+    $$;
+
+    grant execute on function public.get_points()           to anon, authenticated;
+    grant execute on function public.add_points()            to anon, authenticated;
+    grant execute on function public.add_activity_points()   to anon, authenticated;
 
   To carry the current number over, seed it instead of 0, e.g.:
     insert into public.game_points (id, total) values (1, 14500)
