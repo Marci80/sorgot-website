@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+
+// Questions and answers from "שאלות ותשובות.docx". `link` renders as a
+// call-to-action line under the answer.
+const faqs = [
+  {
+    q: 'מתי התערוכה מוצגת',
+    a: 'התערוכה מוצגת כל שנה מסוף הקיץ ועד אחרי החגים. השנה התערוכה תרד ב-17.10.26',
+  },
+  {
+    q: 'כמה נשים סורגות בתערוכה',
+    a: 'הקבוצה העיקרית מונה כעשרים נשים מבורגתה שסורגות יחד לאורך השנה. בנוסף, קבוצות נוספות של סורגות מכל הארץ שולחות ריבועים שמשתלבים יחד למיצגים בתערוכה כמו מיצב העפיפונים ואוהל התקווה.',
+  },
+  {
+    q: 'איך תורמים לפרויקט',
+    a: 'נשמח אם תבחרו לתרום להמשך הדרך, תרומתכם תסייע לקיומה של התערוכה הבאה. אפשר לתרום בקישור המצורף.',
+    link: { label: 'לתרומה', href: `${base}donate` },
+  },
+  {
+    q: 'איך מצטרפים לקבוצה',
+    a: 'אפשר להירשם בקישור המצורף ואנחנו ניצור קשר. כשהתערוכה מציגה אנחנו לא סורגות אז ניצור קשר אחרי שהתערוכה תרד.',
+    link: { label: 'להרשמה', href: `${base}register` },
+  },
+  {
+    q: 'האם כל המיצבים מופיעים כל שנה',
+    a: 'יש מיצבים שחוזרים ומופיעים לאורך השנים ויש הרבה חדשים. למשל, השנה, ב-2026 אפשר לראות את הדגל ואת היונה שחזרו משנים עברו לצד מיצבים חדשים רבים שקשורים לקיץ וים ולשירים ישראליים כמו הגלידות, השמשיות, התמנון וכל הבאנרים עם השירים.',
+  },
+  {
+    q: 'איך מגיעים לתערוכה',
+    a: 'כותבים בווייז - עגלת קפה פוזה לקפה בורגתה',
+  },
+  {
+    q: 'מתי ואיפה הנשים סורגות',
+    a: 'לאורך השנה הקבוצה נפגשת אחת לשבוע בבית החם בבורגתה וכולן סורגות יחד. בחודש האחרון לפני עליית התערוכה הקבוצה נפגשת כמעט כל יום בבית העם במושב, שם כבר נפרסים המיצבים הגדולים.',
+  },
+];
+---
+
+<BaseLayout
+  title="שאלות ותשובות — תערוכת הסריגה השנתית"
+  description="שאלות נפוצות על תערוכת הסריגה הקהילתית בבורגתה"
+>
+  <section class="px-4 py-20 max-w-2xl mx-auto">
+    <h1 class="mb-10">
+      <img
+        src={`${base}images/faq headline.png`}
+        alt="שאלות ותשובות"
+        class="mx-auto w-full max-w-xs"
+      />
+    </h1>
+
+    <div class="flex flex-col gap-3">
+      {faqs.map((item) => (
+        <details class="faq group bg-white border border-gray-200 rounded-2xl shadow-sm">
+          <summary class="flex items-center gap-4 cursor-pointer list-none px-5 py-4 text-lg font-medium text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-burgundy rounded-2xl [&::-webkit-details-marker]:hidden">
+            <span class="faq-icon shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-burgundy text-white text-2xl leading-none transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+            <span class="flex-1">{item.q}</span>
+          </summary>
+          <div class="px-5 pb-5 text-lg text-gray-600 leading-relaxed">
+            <p>{item.a}</p>
+            {item.link && (
+              <a
+                href={item.link.href}
+                class="inline-block mt-4 bg-burgundy hover:bg-burgundy-dark text-white font-medium px-8 py-2.5 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                {item.link.label}
+              </a>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
