@@ -9,6 +9,11 @@ const paragraphs = [
   'היצירה מסמלת את הכוח שבשיתופי פעולה, את החיבוק הקהילתי, ואת התקווה לסרוג יחד עתיד טוב ומואר יותר.',
 ];
 
+const buttons = [
+  { label: 'מדריכים קוליים', href: 'https://marci80.github.io/sorgot-website/audio-guides/' },
+  { label: 'תרומה', href: 'https://marci80.github.io/sorgot-website/donate/' },
+];
+
 // Partners with a logo on file (public/logos). משפחת שחורי has no logo — text only.
 const partners = [
   { name: 'מועצה אזורית עמק חפר', file: 'emek-hefer.jpg' },
@@ -18,34 +23,39 @@ const partners = [
 ];
 ---
 
-<section class="py-24 md:py-32 px-4 sm:px-6" aria-labelledby="hero-heading">
+<section class="py-8 md:py-16 px-4 sm:px-6" aria-labelledby="hero-heading">
   <div class="max-w-2xl mx-auto text-center">
 
     <img
       id="hero-heading"
       src={`${import.meta.env.BASE_URL}images/headline.png`}
       alt={heading}
-      class="mx-auto mb-8 w-full max-w-lg"
+      class="mx-auto mb-6 w-full max-w-lg"
     />
 
-    <div class="space-y-5 text-xl text-gray-600 leading-relaxed">
-      {paragraphs.map((p) => (
-        <p>{p}</p>
-      ))}
-    </div>
+    <!-- Text and buttons side by side (text on the right, buttons on the left in RTL),
+         so the buttons are reachable without scrolling, even on mobile. -->
+    <div class="flex flex-row items-center gap-4 sm:gap-8 text-start">
+      <div class="flex-1 space-y-2 sm:space-y-4 text-sm sm:text-xl text-gray-600 leading-relaxed">
+        {paragraphs.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
 
-    <!-- CTA button -->
-    <div class="mt-12">
-      <a
-        href="https://marci80.github.io/sorgot-website/audio-guides/"
-        class="inline-block bg-burgundy hover:bg-burgundy-dark text-white text-lg font-medium px-10 py-4 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy"
-      >
-        מדריכים קוליים
-      </a>
+      <div class="shrink-0 w-[34%] max-w-[13rem] flex flex-col gap-4 sm:gap-6">
+        {buttons.map((b) => (
+          <a
+            href={b.href}
+            class="block bg-burgundy hover:bg-burgundy-dark text-white text-sm sm:text-lg font-medium text-center px-2 py-5 sm:py-6 rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy"
+          >
+            {b.label}
+          </a>
+        ))}
+      </div>
     </div>
 
     <!-- Thanks to partners -->
-    <div class="mt-20 pt-12 border-t border-gray-200">
+    <div class="mt-12 pt-10 border-t border-gray-200">
       <p class="text-xl font-bold text-gray-800 mb-3">
         תודה לכל השותפים שאפשרו את קיומה של התערוכה:
       </p>
