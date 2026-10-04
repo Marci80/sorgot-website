@@ -33,13 +33,12 @@ const partners = [
       class="mx-auto mb-6 w-full max-w-lg"
     />
 
-    <!-- Text and buttons side by side (text on the right, buttons on the left in RTL),
-         so the buttons are reachable without scrolling, even on mobile. -->
+    <!-- First paragraph and buttons side by side (text on the right, buttons on the left in RTL),
+         so the buttons are reachable without scrolling, even on mobile.
+         The remaining paragraphs run full width below. -->
     <div class="flex flex-row items-center gap-4 sm:gap-8 text-start">
-      <div class="flex-1 space-y-2 sm:space-y-4 text-xl text-gray-600 leading-relaxed">
-        {paragraphs.map((p) => (
-          <p>{p}</p>
-        ))}
+      <div class="flex-1 text-xl text-gray-600 leading-relaxed">
+        <p>{paragraphs[0]}</p>
       </div>
 
       <div class="shrink-0 w-[34%] max-w-[13rem] flex flex-col gap-4 sm:gap-6">
@@ -52,6 +51,12 @@ const partners = [
           </a>
         ))}
       </div>
+    </div>
+
+    <div class="mt-4 space-y-2 sm:space-y-4 text-start text-xl text-gray-600 leading-relaxed">
+      {paragraphs.slice(1).map((p) => (
+        <p>{p}</p>
+      ))}
     </div>
 
     <!-- Thanks to partners -->
