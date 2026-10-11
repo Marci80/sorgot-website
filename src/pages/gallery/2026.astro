@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+
+const base = import.meta.env.BASE_URL;
+const ids = Array.from({ length: 15 }, (_, i) => `2026-${String(i + 1).padStart(3, '0')}`);
+---
+
+<BaseLayout
+  title="גלריה 2026 — תערוכת הסריגה השנתית"
+  description="תמונות מתערוכת הסריגה השנתית 2026"
+>
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16" dir="rtl">
+    <nav class="mb-8 text-sm text-gray-500" aria-label="ניווט ארכיון">
+      <a href={`${base}gallery`} class="hover:text-burgundy transition-colors">גלריה</a>
+      <span class="mx-2 text-gray-300" aria-hidden="true">›</span>
+      <span class="text-gray-700">2026</span>
+    </nav>
+
+    <h1 class="text-4xl sm:text-5xl font-abraham text-burgundy mb-10 text-right">גלריה 2026</h1>
+
+    <PhotoGrid ids={ids} year="2026" />
+  </section>
+</BaseLayout>
